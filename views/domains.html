@@ -7,10 +7,10 @@
     </tr>
   </thead>
   {% for domain in domains %}
-  <tr class="{{results[domain].cssClass}}">
+  <tr class="alert alert-{{results[domain].cssClass}}">
     <td>{{loop.key}}</td>
     <td>{{domain}}</td>
-    <td>{{results[domain].status}}</td>
+    <td><span class="badge badge-{{results[domain].cssClass}}">{{results[domain].status}}</span></td>
   </tr>
   {% endfor %}
 </table>

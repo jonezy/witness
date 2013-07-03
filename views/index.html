@@ -10,8 +10,11 @@
 
 {% block scripts %}
 <script>
+
+var t;
 $(function() {
-  var t = window.setInterval(update, 30000);
+  update();
+  t = window.setInterval(update, 30000);
 });
 
 function update() {

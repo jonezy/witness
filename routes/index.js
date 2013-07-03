@@ -11,7 +11,7 @@ var results = {};
 
 var resultTemplate = {
   status: "ok",
-  cssClass: "alert-success"
+  cssClass: "success",
 };
 
 var testDomains = [];
@@ -22,23 +22,7 @@ for(var d in domains) {
 }
 
 exports.index = function(req, res){
-  async.forEachSeries(
-    testDomains,
-    function(d, next) {
-      console.log('Testing ', d);
-      try {
-        doRequest(d, function(data) {
-          results[d] = data;
-          next();
-        });
-      } catch (e) {
-        next(null);
-      }
-    },function(err) {
-      if(err) console.log('ERROR ', err);
-      res.render('index', { title: 'Express', domains:domains, results: results });
-    }
-  );
+  res.render('index', { title: 'Express'});
 };
 
 exports.update = function(req, res) {
@@ -84,7 +68,7 @@ function doRequest(url, cb) {
   });
 
   apiReq.on('error', function(e) {
-    data = { status: 'down', cssClass: 'alert-error' };
+    data = { status: 'down', cssClass: 'error' };
     cb && cb(data);
   });
 
