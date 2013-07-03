@@ -1,0 +1,16 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Domain</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  {% for domain in domains %}
+  <tr class="{{results[domain].cssClass}}">
+    <td>{{loop.key}}</td>
+    <td>{{domain}}</td>
+    <td>{{results[domain].status}}</td>
+  </tr>
+  {% endfor %}
+</table>

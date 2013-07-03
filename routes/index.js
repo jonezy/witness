@@ -7,36 +7,58 @@ var nconf = require('nconf'),
 nconf.file({file: process.cwd() + '/domains.json' });
 
 var domains = nconf.get();
-var results = [];
+var results = {};
 
 var resultTemplate = {
   status: "ok",
   cssClass: "alert-success"
 };
 
-exports.index = function(req, res){
-  var testDomains = [];
-  var i = 0;
-  for(var d in domains) {
-    testDomains[i] = domains[d];
-    i++;
-  }
-  async.forEachSeries(testDomains,
-  function(d, next) {
-    console.log('Testing ', d);
-    try {
-      doRequest(d, function(data) {
-        results[d] = data;
-        next();
-      });
-    } catch (e) {
-      next(null);
-    }
-  },function(err) {
-    if(err) console.log('ERROR ', err);
-    res.render('index', { title: 'Express', domains:domains, results: results });
-  });
+var testDomains = [];
+var i = 0;
+for(var d in domains) {
+  testDomains[i] = domains[d];
+  i++;
+}
 
+exports.index = function(req, res){
+  async.forEachSeries(
+    testDomains,
+    function(d, next) {
+      console.log('Testing ', d);
+      try {
+        doRequest(d, function(data) {
+          results[d] = data;
+          next();
+        });
+      } catch (e) {
+        next(null);
+      }
+    },function(err) {
+      if(err) console.log('ERROR ', err);
+      res.render('index', { title: 'Express', domains:domains, results: results });
+    }
+  );
+};
+
+exports.update = function(req, res) {
+  async.forEachSeries(
+    testDomains,
+    function(d, next) {
+      console.log('Testing ', d);
+      try {
+        doRequest(d, function(data) {
+          results[d] = data;
+          next();
+        });
+      } catch (e) {
+        next(null);
+      }
+    },function(err) {
+      if(err) console.log('ERROR ', err);
+      res.render('domains', { title: 'Express', domains:domains, results: results });
+    }
+  );
 };
 
 

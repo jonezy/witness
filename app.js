@@ -18,7 +18,6 @@ app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.compress());
-app.use(express.staticCache());
 app.use(express.static(path.join(__dirname, 'public'), {maxAge: 86400000}));
 
 swig.init({
@@ -32,6 +31,7 @@ if ('development' == app.get('env')) {
 }
 
 app.get('/', routes.index);
+app.get('/update', routes.update);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
