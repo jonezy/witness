@@ -1,5 +1,8 @@
 {
+  "absoluteweddings": "www.absolutewedsite.com",
+  "gomra": "www.gomra.com",
   "mini-configurator":"www.buildmymini.ca",
   "mini-crm":"crm.buildmymini.ca",
-  "test": "test.jonezy.org"
+  "mini-api":"api.buildmymini.ca",
+  "samy": "samycaribbean.net"
 }
