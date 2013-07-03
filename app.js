@@ -17,7 +17,9 @@ app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(app.router);
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.compress());
+app.use(express.staticCache());
+app.use(express.static(path.join(__dirname, 'public'), {maxAge: 86400000}));
 
 swig.init({
   root: __dirname +'/views',
