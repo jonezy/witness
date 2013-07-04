@@ -7,6 +7,10 @@
   display:none;
 }
 
+#logs {
+  height:300px;
+  overflow-y:auto;
+}
 
 #logs p {
   margin-bottom:1px;
