@@ -28,7 +28,6 @@ function update(cb) {
     dataType: "text",
     contentType: "application/text",
     cache: false,
-    timeout: 5000,
     beforeSend: function() {
       el.addClass('loading');
       notify('Checking sites....', 'alert alert-info');
@@ -45,9 +44,8 @@ function update(cb) {
     },
 
     error: function(xhr, status, errorText) {
-      notify('There was a problem checking the sites.', 'alert alert-error');
-      setTimeout(update(), 50000);
-      console.log('process error');
+      notify('There was a problem checking the sites. Reload the page to try again.', 'alert alert-error');
+      console.log('process error', errorText);
     },
   });
 }
