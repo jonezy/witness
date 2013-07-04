@@ -2,6 +2,7 @@
 
 {% block content %}
 <div class="row">
+  <div id="messages"></div>
   <div class="column16" id="domains">
     {% include 'domains.html' %}
   </div>
@@ -13,12 +14,14 @@
 
 var t;
 $(function() {
-  update();
-  t = window.setInterval(update, 30000);
+  update(function() {
+    t = window.setInterval(update, 30000);
+  });
 });
 
-function update() {
+function update(cb) {
   var el = $('#domains');
+
   $.ajax({
     url: "/update",
     type: "GET",
@@ -28,19 +31,37 @@ function update() {
     timeout: 5000,
     beforeSend: function() {
       el.addClass('loading');
+      notify('Checking sites....', 'alert alert-info');
     },
     complete: function() {
       el.removeClass('loading');
     },
 
     success: function(data) {
+      notify('Sites updated', 'alert alert-success');
       el.html(data);
+      setTimeout(hide($('#messages')), 5000);
+      cb && cb();
     },
 
     error: function(xhr, status, errorText) {
+      notify('There was a problem checking the sites.', 'alert alert-error');
+      setTimeout(update(), 50000);
       console.log('process error');
     },
   });
+}
+
+function hide(el) {
+ el.hide(); 
+}
+
+function notify(message, css) {
+  var notifier = $('#messages');
+  notifier.removeClass();
+  notifier.addClass(css);
+  notifier.html(message);
+  notifier.show();
 }
 
 </script>
