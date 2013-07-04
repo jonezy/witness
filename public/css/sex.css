@@ -1,8 +1,13 @@
 .loading { opacity:0.5;}
 #messages { 
   position:absolute;
-  top:-60px;
+  top:-66px;
   left:80px;
   width:980px;
-  
-  display:none;}
+  display:none;
+}
+
+
+#logs p {
+  margin-bottom:1px;
+}

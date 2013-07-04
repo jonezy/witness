@@ -6,6 +6,7 @@
   <div class="column16" id="domains">
     {% include 'domains.html' %}
   </div>
+  <div class="column16" id="logs"></div>
 </div>
 {% endblock %}
 
@@ -15,9 +16,11 @@
 var t;
 $(function() {
   update(function() {
-    t = window.setInterval(update, 30000);
+    t = window.setInterval(update, 60000);
   });
 });
+
+var logs = [];
 
 function update(cb) {
   var el = $('#domains');
@@ -37,17 +40,32 @@ function update(cb) {
     },
 
     success: function(data) {
-      notify('Sites updated', 'alert alert-success');
+      hide($('#messages'));
       el.html(data);
-      setTimeout(hide($('#messages')), 5000);
+      logs[logs.length + 1] = { message: "Successfully ran @ " + new Date().toLocaleTimeString(), status: 'info'};
+      displayLogs(); 
       cb && cb();
     },
 
     error: function(xhr, status, errorText) {
       notify('There was a problem checking the sites. Reload the page to try again.', 'alert alert-error');
+      logs[logs.length + 1] = { message: "Failed run @ " + new Date().toLocaleTimeString(), status: 'error'};
+      displayLogs();
       console.log('process error', errorText);
     },
   });
+}
+
+function displayLogs() {
+  var ui = $('#logs'),
+      itemTemplate = '<p class="alert alert-<status>"><msg></p>';
+
+  ui.html('');
+  for(var log in logs) {
+    var entry = itemTemplate.replace('<msg>',logs[log].message); 
+    entry = entry.replace('<status>',logs[log].status); 
+    $('#logs').append(entry);
+  }
 }
 
 function hide(el) {
