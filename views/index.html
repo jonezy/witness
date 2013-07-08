@@ -13,14 +13,30 @@
 <script>
 
 var t;
+var m = $('#messages'),
+    w = $('.container16').width(); 
+
 $(function() {
   update(function() {
     t = window.setInterval(update, 60000);
   });
 
-  var m = $('#messages');
-  m.width(m.width() - 70);
+  resetMessagesUI();
+
+  window.onresize = function() {
+    w = $('.container16').width(); 
+    resetMessagesUI();
+  }
+
 });
+
+function resetMessagesUI() {
+  if(m.width() >= w) {
+    m.width(m.width() - 70);
+  } else {
+    m.width(w);
+  }
+}
 
 var logs = [];
 
