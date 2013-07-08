@@ -14,7 +14,7 @@ $(function() {
   });
 
   update(function() {
-    t = window.setInterval(update(checkRows), 60000);
+    t = window.setInterval(function() { update(checkRows); }, 60000);
     checkRows();
   });
 
