@@ -1,8 +1,8 @@
-<table class="table">
+<table id="domain-table" class="table">
   {% for domain in domains %}
   <tr class="alert alert-{{results[domain].cssClass}}">
     <td>{{domain}}</td>
-    <td><span class="badge badge-{{results[domain].cssClass}}">{{results[domain].status}}</span></td>
+    <td><span class="badge badge-{{results[domain].badgeClass}}">{{results[domain].status}}</span></td>
   </tr>
   {% endfor %}
 </table>

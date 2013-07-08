@@ -12,6 +12,7 @@ var results = {};
 var resultTemplate = {
   status: "ok",
   cssClass: "success",
+  badgeClass: "success"
 };
 
 var testDomains = [];
@@ -68,7 +69,7 @@ function doRequest(url, cb) {
   });
 
   apiReq.on('error', function(e) {
-    data = { status: 'down', cssClass: 'error' };
+    data = { status: 'down', cssClass: 'error', badgeClass: 'important' };
     cb && cb(data);
   });
 
