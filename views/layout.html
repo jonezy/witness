@@ -3,10 +3,15 @@
 <head>
   <title>can i get a witness?</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/css/bootstrap.flatly.css" />
-  <link rel="stylesheet" href="/css/bootstrap.flat.css" />
-  <link rel="stylesheet" href="/css/1140.css" />
-  <link rel="stylesheet" href="/css/sex.css" />
+  {% if isDebug %}
+    <link rel="stylesheet" href="/css/bootstrap.flatly.css" />
+    <link rel="stylesheet" href="/css/bootstrap.flat.css" />
+    <link rel="stylesheet" href="/css/1140.css" />
+    <link rel="stylesheet" href="/css/sex.css" />
+  {% else %}
+    <link rel="stylesheet" href="/css/witness.min.css" />
+  {% endif %}
+
 </head>
 <body>
   {% include 'nav.html' %}

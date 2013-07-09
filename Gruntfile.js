@@ -15,9 +15,18 @@ module.exports = function(grunt) {
           ]
         }
       }
+    },
+    cssmin: {
+      compress:{
+        files: {
+          './public/css/witness.min.css':['./public/css/bootstrap.flatly.css', './public/css/bootstrap.flat.css','./public/css/1140.css','./public/css/sex.css']
+        }
+      }
     }
   });
   grunt.loadNpmTasks('grunt-nodemon');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-cssmin');
 
-  grunt.registerTask('default',['nodemon']);
+  grunt.registerTask('default',['cssmin','nodemon']);
 };

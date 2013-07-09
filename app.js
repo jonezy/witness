@@ -28,6 +28,7 @@ swig.init({
 // development only
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
+  app.locals.isDebug = true;
 }
 
 app.get('/', routes.index);
