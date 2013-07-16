@@ -1,6 +1,7 @@
 var nconf = require('nconf'),
     http = require('http'),
-    async = require('async');
+    async = require('async'),
+    Tackle = require('tackle');
 
 
 // load the domains json file
@@ -34,7 +35,9 @@ exports.update = function(req, res) {
       try {
         doRequest(d, function(data) {
           results[d] = data;
+          Tackle(d, {limit: 5}, function(report) {
           next();
+          });
         });
       } catch (e) {
         next(null);

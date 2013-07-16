@@ -16,7 +16,8 @@
     "swig": "~0.14.0",
     "consolidate": "~0.9.1",
     "nconf": "~0.6.7",
-    "async": "~0.2.9"
+    "async": "~0.2.9",
+    "tackle":"git+ssh://git@github.com:jonezy/tackle.git"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
