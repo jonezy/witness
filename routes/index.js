@@ -1,5 +1,6 @@
 var nconf = require('nconf'),
     http = require('http'),
+    https = require('https'),
     async = require('async'),
     Tackle = require('tackle');
 
@@ -33,12 +34,19 @@ exports.update = function(req, res) {
     function(d, next) {
       console.log('Testing ', d);
       try {
-        doRequest(d, function(data) {
-          results[d] = data;
-          Tackle(d, {limit: 5}, function(report) {
-          next();
+        if(d.slice(0, 5) === 'https') {
+          https.get(d, function(res) {
+            handleResponse(res, d, next);
+          }).on('error', function(e) {
+            data = { status: 'down', cssClass: 'error', badgeClass: 'important' };
           });
-        });
+        } else {
+          http.get(d, function(res) {
+            handleResponse(res, d, next);
+          }).on('error', function(e) {
+            data = { status: 'down', cssClass: 'error', badgeClass: 'important' };
+          });
+        }
       } catch (e) {
         next(null);
       }
@@ -49,32 +57,16 @@ exports.update = function(req, res) {
   );
 };
 
+var handleResponse = function(res, d, next) {
 
-function doRequest(url, cb) {
-  var options = {
-    host: url,
-    port: 80,
-    path: "/",
-    method: "GET"
-  };
-
-  // do the request!
-  var data = "";
-  var apiReq = http.request(options, function(apiRes) {
-    apiRes.setEncoding('utf8');
-    apiRes.on('data', function(chunk) {
-      data = resultTemplate;
-    });
-    apiRes.on('end', function() {
-      // execute the callback
-      cb && cb(data);
-    });
-  });
-
-  apiReq.on('error', function(e) {
-    data = { status: 'down', cssClass: 'error', badgeClass: 'important' };
-    cb && cb(data);
-  });
-
-  apiReq.end();
+        var data = "";
+          res.on('data', function(chunk) {
+            data = resultTemplate;
+          });
+          res.on('end', function() {
+            Tackle(d, {limit: 3}, function(report) {
+              results[d] = data;
+              next();
+            });
+          });
 }

@@ -1,11 +1,14 @@
 {
-  "absoluteweddings": "www.absolutewedsite.com",
-  "bmw-ccrc": "bmwccrc.richmondday.com",
-  "gomra": "www.gomra.com",
-  "micro-mini": "micro.mini.ca",
-  "mini-ccrc": "miniccrc.richmondday.com",
-  "mini-configurator":"www.buildmymini.ca",
-  "mini-crm":"crm.buildmymini.ca",
-  "mini-api":"api.buildmymini.ca",
-  "samy": "samycaribbean.net",
-  "street-tiger": "www.streettiger.com"}
+  "absoluteweddings": "http://www.absolutewedsite.com",
+  "bmw-ccrc-english": "http://bmwccrc.richmondday.com/en",
+  "bmw-ccrc-french": "http://bmwccrc.richmondday.com/fr",
+  "gomra": "http://www.gomra.com",
+  "micro-mini": "http://micro.mini.ca",
+  "mini-ccrc-english": "http://miniccrc.richmondday.com/en",
+  "mini-ccrc-french": "http://miniccrc.richmondday.com/fr",
+  "mini-configurator":"http://www.buildmymini.ca",
+  "mini-crm":"http://crm.buildmymini.ca",
+  "mini-api":"http://api.buildmymini.ca",
+  "samy": "http://www.samycaribbean.net",
+  "street-tiger": "https://www.streettiger.com"
+}
