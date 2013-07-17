@@ -67,6 +67,7 @@ var handleResponse = function(res, d, next) {
   });
   res.on('end', function() {
     Tackle(d, {limit: 3}, function(report) {
+      data.report = report;
       results[d] = data;
       next();
     });

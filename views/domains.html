@@ -2,7 +2,9 @@
   {% for domain in domains %}
   <tr class="alert alert-{{results[domain].cssClass}}">
     <td>{{domain}}</td>
-    <td><span class="badge badge-{{results[domain].badgeClass}}">{{results[domain].status}}</span></td>
+    <td align="right" style="text-align:right;">
+      <small>{{results[domain].report.total}} links checked {{results[domain].report.duration}}. {{results[domain].report.failed.length}} failed.</small>
+    </td>
   </tr>
   {% endfor %}
 </table>
