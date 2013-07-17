@@ -32,7 +32,9 @@ exports.update = function(req, res) {
   async.forEachSeries(
     testDomains,
     function(d, next) {
+      console.log();
       console.log('Testing ', d);
+      console.log('-------------');
       try {
         if(d.slice(0, 5) === 'https') {
           https.get(d, function(res) {
@@ -59,14 +61,14 @@ exports.update = function(req, res) {
 
 var handleResponse = function(res, d, next) {
 
-        var data = "";
-          res.on('data', function(chunk) {
-            data = resultTemplate;
-          });
-          res.on('end', function() {
-            Tackle(d, {limit: 3}, function(report) {
-              results[d] = data;
-              next();
-            });
-          });
-}
+  var data = "";
+  res.on('data', function(chunk) {
+    data = resultTemplate;
+  });
+  res.on('end', function() {
+    Tackle(d, {limit: 3}, function(report) {
+      results[d] = data;
+      next();
+    });
+  });
+};
