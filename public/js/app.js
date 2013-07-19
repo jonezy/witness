@@ -13,8 +13,9 @@ $(function() {
     fallback: true
   });
 
+  var interval = 2 * 60000; // 2 mins
   update(function() {
-    t = window.setInterval(function() { update(checkRows); }, 60000);
+    t = window.setInterval(function() { update(checkRows); }, interval);
     checkRows();
   });
 
