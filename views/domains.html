@@ -3,8 +3,11 @@
   <tr class="alert alert-{{results[domain].cssClass}}">
     <td>{{domain}}</td>
     <td align="right" style="text-align:right;">
-      <small>{{results[domain].report.total}} links checked {{results[domain].report.duration}}. {{results[domain].report.failed.length}} failed.</small>
+      <small>{{reports[domain].total}} links checked {{reports[domain].duration}}. {{reports[domain].failed.length}} failed.</small>
     </td>
   </tr>
   {% endfor %}
 </table>
+{% if isDebug %}
+<pre>{{ resultsDebug}}</pre>
+{% endif %}

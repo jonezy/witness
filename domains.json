@@ -3,12 +3,11 @@
   "bmw-ccrc-english": "http://bmwccrc.richmondday.com/en",
   "bmw-ccrc-french": "http://bmwccrc.richmondday.com/fr",
   "gomra": "http://www.gomra.com",
-  "micro-mini": "http://micro.mini.ca",
+  "paceman-minisite": "http://micro.mini.ca/paceman",
   "mini-ccrc-english": "http://miniccrc.richmondday.com/en",
   "mini-ccrc-french": "http://miniccrc.richmondday.com/fr",
-  "mini-configurator":"http://www.buildmymini.ca",
+  "mini-configurator":"http://www.buildmymini.ca/#/models",
   "mini-crm":"http://crm.buildmymini.ca",
-  "mini-api":"http://api.buildmymini.ca",
   "samy": "http://www.samycaribbean.net",
   "street-tiger": "https://www.streettiger.com"
 }

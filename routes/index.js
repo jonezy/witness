@@ -10,6 +10,7 @@ nconf.file({file: process.cwd() + '/domains.json' });
 
 var domains = nconf.get();
 var results = {};
+var reports = {};
 
 var resultTemplate = {
   status: "ok",
@@ -25,50 +26,39 @@ for(var d in domains) {
 }
 
 exports.index = function(req, res){
-  res.render('index', { title: 'Express'});
+  res.render('index');
 };
 
 exports.update = function(req, res) {
   async.forEachSeries(
     testDomains,
     function(d, next) {
-      console.log();
-      console.log('Testing ', d);
-      console.log('-------------');
-      try {
-        if(d.slice(0, 5) === 'https') {
-          https.get(d, function(res) {
-            handleResponse(res, d, next);
-          }).on('error', function(e) {
-            data = { status: 'down', cssClass: 'error', badgeClass: 'important' };
-          });
-        } else {
-          http.get(d, function(res) {
-            handleResponse(res, d, next);
-          }).on('error', function(e) {
-            data = { status: 'down', cssClass: 'error', badgeClass: 'important' };
-          });
-        }
-      } catch (e) {
-        next(null);
+      if(d.slice(0,5) !== 'https') {
+        http.get(d, function(res) {
+          handleResponse(res, d, next);
+        });
+      } else {
+        https.get(d, function(res) {
+          handleResponse(res, d, next);
+        });
       }
     },function(err) {
       if(err) console.log('ERROR ', err);
-      res.render('domains', { title: 'Express', domains:domains, results: results });
+      res.render('domains', { domains:domains, results: results, reports:reports, resultsDebug: JSON.stringify(reports, undefined, 2) });
     }
   );
 };
 
 var handleResponse = function(res, d, next) {
+  if(res.statusCode === 200 || res.statusCode === 302 || res.statusCode === 304)
+    results[d] = resultTemplate;
 
-  var data = "";
-  res.on('data', function(chunk) {
-    data = resultTemplate;
-  });
+  res.on('data', function(chunk) { });
+
   res.on('end', function() {
-    Tackle(d, {limit: 3}, function(report) {
-      data.report = report;
-      results[d] = data;
+    var tackle = new Tackle(d, {limit:5,types:'script,link'});
+    tackle.run(function(report) {
+      reports[d] = report;
       next();
     });
   });

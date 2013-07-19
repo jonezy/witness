@@ -5,7 +5,9 @@
   <div class="alpha omega column16" id="domains">
     {% include 'domains.html' %}
   </div>
+  {% if isDebug %}
   <div class="alpha omega column16" id="logs"></div>
+  {% endif %}
 </div>
 {% endblock %}
 
