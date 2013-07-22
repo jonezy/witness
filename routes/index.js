@@ -43,15 +43,13 @@ exports.update = function(req, res) {
         http.get(d, function(res) {
           handleResponse(res, d, next);
         }).on('error', function(err) {
-          results[d] = errorTemplate;
-          next();
+          handleErrorResponse(err, next);
         });
       } else {
         https.get(d, function(res) {
           handleResponse(res, d, next);
         }).on('error', function(err) {
-          results[d] = errorTemplate;
-          next();
+          handleErrorResponse(err, next);
         });
       }
     },function(err) {
@@ -70,9 +68,17 @@ var handleResponse = function(res, d, next) {
   res.on('end', function() {
     var tackle = new Tackle(d, {limit:10,type:'script,link'});
     tackle.run(function(report) {
+      report.failedCss = 'badge-success';
+      if(report.failed.length > 0) report.failedCss = 'badge-important';
+
       reports[d] = report;
 
       next();
     });
   });
+};
+
+var handleErrorResponse = function(err, next) {
+  results[d] = errorTemplate;
+  next();
 };
