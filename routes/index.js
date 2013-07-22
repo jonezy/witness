@@ -68,7 +68,7 @@ var handleResponse = function(res, d, next) {
   res.on('data', function(chunk) { });
 
   res.on('end', function() {
-    var tackle = new Tackle(d, {limit:10,types:'script,link'});
+    var tackle = new Tackle(d, {limit:10,type:'script,link'});
     tackle.run(function(report) {
       reports[d] = report;
 
