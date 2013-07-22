@@ -13,7 +13,7 @@ $(function() {
     fallback: true
   });
 
-  var interval = 2 * 60000; // 2 mins
+  var interval = 5 * 60000; // 5 mins
   update(function() {
     t = window.setInterval(function() { update(checkRows); }, interval);
     checkRows();

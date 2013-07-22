@@ -18,6 +18,12 @@ var resultTemplate = {
   badgeClass: "success"
 };
 
+var errorTemplate = {
+  status: 'down',
+  cssClass: 'error',
+  badgeClass: 'error'
+};
+
 var testDomains = [];
 var i = 0;
 for(var d in domains) {
@@ -36,10 +42,16 @@ exports.update = function(req, res) {
       if(d.slice(0,5) !== 'https') {
         http.get(d, function(res) {
           handleResponse(res, d, next);
+        }).on('error', function(err) {
+          results[d] = errorTemplate;
+          next();
         });
       } else {
         https.get(d, function(res) {
           handleResponse(res, d, next);
+        }).on('error', function(err) {
+          results[d] = errorTemplate;
+          next();
         });
       }
     },function(err) {
@@ -56,9 +68,10 @@ var handleResponse = function(res, d, next) {
   res.on('data', function(chunk) { });
 
   res.on('end', function() {
-    var tackle = new Tackle(d, {limit:5,types:'script,link'});
+    var tackle = new Tackle(d, {limit:10,types:'script,link'});
     tackle.run(function(report) {
       reports[d] = report;
+
       next();
     });
   });
