@@ -16,7 +16,8 @@
     "consolidate": "~0.9.1",
     "nconf": "~0.6.7",
     "async": "~0.2.9",
-    "tackle": "git+https://5fc7ba9ba01bd47510806c395ad9f68e66ed5efc:x-oauth-basic@github.com/jonezy/tackle.git"
+    "tackle": "git+https://5fc7ba9ba01bd47510806c395ad9f68e66ed5efc:x-oauth-basic@github.com/jonezy/tackle.git",
+    "moment": "~2.1.0"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
