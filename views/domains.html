@@ -7,7 +7,7 @@
         <small><span class="badge badge-success">{{reports[domain].total}}</span> links checked in {{reports[domain].duration}}. <span class="badge {{reports[domain].failedCss}}">{{reports[domain].failed.length}}</span> failed.</small>
         {% if reports[domain].failed.length > 0 %}
           {% for failed in reports[domain].failed %}
-            <small>{{ failed.url }}</small>
+          <small>{{ failed.url }}</small><br />
           {% endfor %}
         {% endif %}
       {% endif %}

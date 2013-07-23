@@ -61,9 +61,8 @@ exports.update = function(req, res) {
       }
     },function(err) {
       end = new Date();
-      var duration = moment.duration(moment(end).diff(moment(start), 'seconds'), 'seconds').humanize();
-
-      logs.push({ endTime:end.toLocaleTimeString(),  duration:duration, status: 'info'});
+      var duration = moment.duration(moment(end).diff(moment(start), 'minutes'), 'minutes').humanize();
+      logs.push({ endTime:moment(end).format('h:mm a'),  duration:duration, status: 'info'});
 
       if(err) console.log('ERROR ', err);
       res.render('domains', { domains:domains, results: results, reports:reports, logs: logs, resultsDebug: JSON.stringify(reports, undefined, 2) });
@@ -78,7 +77,7 @@ var handleResponse = function(res, d, next) {
   res.on('data', function(chunk) { });
 
   res.on('end', function() {
-    var tackle = new Tackle(d, {limit:10,type:'script,link,img'});
+    var tackle = new Tackle(d, {limit:5,type:'script,link,img'});
     tackle.run(function(report) {
       report.failedCss = 'badge-success';
       if(report.failed.length > 0) report.failedCss = 'badge-important';
@@ -92,7 +91,7 @@ var handleResponse = function(res, d, next) {
 
 var handleErrorResponse = function(err, next) {
   results[d] = errorTemplate;
-  var duration = moment.duration(moment(end).diff(moment(start), 'seconds'), 'seconds').humanize();
+  var duration = moment.duration(moment(end).diff(moment(start), 'minutes'), 'minutes').humanize();
   logs.push({ endTime:end.toLocaleTimeString(),  duration:duration, status: 'error'});
   next();
 };
