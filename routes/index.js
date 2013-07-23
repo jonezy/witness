@@ -61,10 +61,12 @@ exports.update = function(req, res) {
       }
     },function(err) {
       end = new Date();
-      var duration = moment.duration(moment(end).diff(moment(start), 'minutes'), 'minutes').humanize();
+
+      var duration = moment.duration(end-start + 'ms','minutes').humanize();
       logs.push({ endTime:moment(end).format('h:mm a'),  duration:duration, status: 'info'});
 
       if(err) console.log('ERROR ', err);
+
       res.render('domains', { domains:domains, results: results, reports:reports, logs: logs, resultsDebug: JSON.stringify(reports, undefined, 2) });
     }
   );
