@@ -20,7 +20,7 @@ app.use(express.methodOverride());
 app.use(express.responseTime());
 app.use(app.router);
 app.use(express.compress());
-app.use(express.static(path.join(__dirname, 'public'), {maxAge: 86400000}));
+app.use(express.static(path.join(__dirname, 'public'), {maxAge: 31557600000}));
 
 swig.init({
   root: __dirname +'/views',
