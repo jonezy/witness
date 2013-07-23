@@ -1,21 +1,13 @@
-
-module.exports = function(app) {
 var async = require('async'),
     nconf = require('nconf'),
     http = require('http'),
     https = require('https'),
     moment = require('moment'),
-    path = require('path'),
     Tackle = require('tackle');
 
-
-exports.index = function(req, res) {
-  res.render('index');
-};
-
-var domainsFile = 'domains.json';
-if(app.get('env') === 'development') domainsFile = 'domains.local.json';
-nconf.file({file: path.join(process.cwd() , domainsFile) });
+module.exports = function(app) {
+// load the domains json file
+nconf.file({file: process.cwd() + '/domains.json' });
 
 var domains = nconf.get();
 var results = {};
@@ -35,8 +27,10 @@ var errorTemplate = {
 };
 
 var testDomains = [];
+var i = 0;
 for(var d in domains) {
-  testDomains.push(domains[d]);
+  testDomains[i] = domains[d];
+  i++;
 }
 
 var start,end;
@@ -61,9 +55,10 @@ exports.update = function(req, res) {
       }
     },function(err) {
       end = new Date();
+      console.log(moment(res.get('X-Response-Time')));
       var duration = moment.duration(moment(end).diff(moment(start), 'seconds'), 'seconds').humanize();
 
-      logs.push({ endTime:end.toLocaleTimeString(),  duration:duration, status: 'info'});
+      logs.push({ endTime:end.toLocaleTimeString(),  duration:res._responseDuration, status: 'info'});
 
       if(err) console.log('ERROR ', err);
       res.render('domains', { domains:domains, results: results, reports:reports, logs: logs, resultsDebug: JSON.stringify(reports, undefined, 2) });
@@ -78,7 +73,7 @@ var handleResponse = function(res, d, next) {
   res.on('data', function(chunk) { });
 
   res.on('end', function() {
-    var tackle = new Tackle(d, {limit:10,type:'script,link,img'});
+    var tackle = new Tackle(d, {limit:10,type:'script,link'});
     tackle.run(function(report) {
       report.failedCss = 'badge-success';
       if(report.failed.length > 0) report.failedCss = 'badge-important';
@@ -93,9 +88,9 @@ var handleResponse = function(res, d, next) {
 var handleErrorResponse = function(err, next) {
   results[d] = errorTemplate;
   var duration = moment.duration(moment(end).diff(moment(start), 'seconds'), 'seconds').humanize();
-  logs.push({ endTime:end.toLocaleTimeString(),  duration:duration, status: 'error'});
+  logs.push({ endTime:end.toLocaleTimeString(),  duration:res._responseDuration, status: 'error'});
   next();
 };
 
-return exports;
+return exports.update;
 };

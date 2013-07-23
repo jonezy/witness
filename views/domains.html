@@ -4,13 +4,26 @@
     <td>{{domain}}</td>
     <td align="right" style="text-align:right;">
       {% if reports[domain] %}
-      <small>{{reports[domain].total}} links checked in {{reports[domain].duration}}. <span class="badge {{reports[domain].failedCss}}">{{reports[domain].failed.length}}</span> failed.</small>
+        <small><span class="badge badge-success">{{reports[domain].total}}</span> links checked in {{reports[domain].duration}}. <span class="badge {{reports[domain].failedCss}}">{{reports[domain].failed.length}}</span> failed.</small>
+        {% if reports[domain].failed.length > 0 %}
+          {% for failed in reports[domain].failed %}
+            <small>{{ failed.url }}</small>
+          {% endfor %}
+        {% endif %}
       {% endif %}
     </td>
   </tr>
   {% endfor %}
 </table>
-<div class="alpha omega column16" id="logs"></div>
+<div class="alpha omega column16" id="logs">
+  {% for log in logs %}
+    {% if log.status === 'error' %}
+      <p class="alert alert-{{log.status}}">Failed @ {{log.endTime}}. Took {{log.duration}}</p>
+    {% else %}
+      <p class="alert alert-{{log.status}}">Successfully completed @ {{log.endTime}}. Took {{log.duration}}</p>
+    {% endif %}
+  {% endfor %}
+</div>
 {% if isDebug %}
 <pre style="clear:both;">{{ resultsDebug}}</pre>
 {% endif %}

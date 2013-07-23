@@ -4,9 +4,10 @@ var express = require('express'),
     http = require('http'),
     path = require('path');
 
-var routes = require('./routes');
-var app = express();
+var app =  express();
+var routes = require('./routes')(app);
 
+console.log(routes);
 // all environments
 app.set('port', process.env.PORT || 3000);
 app.engine('.html', cons.swig);
@@ -16,6 +17,7 @@ app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
+app.use(express.responseTime());
 app.use(app.router);
 app.use(express.compress());
 app.use(express.static(path.join(__dirname, 'public'), {maxAge: 86400000}));
@@ -37,3 +39,4 @@ app.get('/update', routes.update);
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
+

@@ -27,9 +27,6 @@ $(function() {
   };
 });
 
-
-var logs = [];
-
 function update(cb) {
   var el = $('#domains');
 
@@ -50,15 +47,11 @@ function update(cb) {
     success: function(data) {
       hide($('#messages'));
       el.html(data);
-      logs[logs.length + 1] = { message: "Successfully ran @ " + new Date().toLocaleTimeString(), status: 'info'};
-      displayLogs(); 
       cb && cb();
     },
 
     error: function(xhr, status, errorText) {
       notify('There was a problem checking the sites. Reload the page to try again.', 'alert alert-error');
-      logs[logs.length + 1] = { message: "Failed run @ " + new Date().toLocaleTimeString(), status: 'error'};
-      displayLogs();
       console.log('process error', errorText);
     }
   });
@@ -70,18 +63,6 @@ function checkRows() {
     if($(this).attr('class').indexOf('error') > -1) down++;
   });
   Tinycon.setBubble(down);
-}
-
-function displayLogs() {
-  var ui = $('#logs'),
-      itemTemplate = '<p class="alert alert-<status>"><msg></p>';
-
-  ui.html('');
-  for(var log in logs) {
-    var entry = itemTemplate.replace('<msg>',logs[log].message); 
-    entry = entry.replace('<status>',logs[log].status); 
-    $('#logs').append(entry);
-  }
 }
 
 function resetMessagesUI() {
